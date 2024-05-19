@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const bodyParser = require('body-parser')
 const Request = require('./models/requests'); // Adjust the path according to your file structure
-
+var cors = require('cors')
 const app = express();
 const port = 7000;
 
@@ -13,11 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' })); // Increase t
 app.use(bodyParser.json({ limit: '50mb' })); // Increase the limit if necessary
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/mydatabase', {
+mongoose.connect('mongodb://localhost:27017/ghouseXeroxStore', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
+app.use(cors())
+app.use('/auth',require('./Routes/auth'))
 // Route to handle file uploads
 app.post('/upload', async (req, res) => {
   try {

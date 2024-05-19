@@ -9,9 +9,15 @@
   "author": "Ghouse Mohammed",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mongoose": "^6.10.0"
+    "express-validator": "^7.0.1",
+    "json": "^11.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^6.10.0",
+    "token": "^0.1.0",
+    "web": "^0.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
