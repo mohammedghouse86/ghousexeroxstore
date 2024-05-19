@@ -53,7 +53,6 @@ app.get('/requests/:id/pdf', async (req, res) => {
     if (!request) {
       return res.status(404).json({ error: 'Request not found' });
     }
-
     res.set('Content-Type', request.pdfContentType);
     res.send(request.pdf);
   } catch (error) {
@@ -76,5 +75,20 @@ app.get('/fetchallrequests', async (req, res) => {
   } catch (error) {
     console.error('Error fetching requests:', error);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// Route to delete a request and its PDF file
+app.delete('/requests/:id', async (req, res) => {
+  try {
+    const request = await Request.findByIdAndDelete(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+
+    res.json({ message: 'Request deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete request' });
   }
 });
