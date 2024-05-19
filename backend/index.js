@@ -19,6 +19,8 @@ mongoose.connect('mongodb://localhost:27017/ghouseXeroxStore', {
 });
 app.use(cors())
 app.use('/auth',require('./Routes/auth'))
+
+
 // Route to handle file uploads
 app.post('/upload', async (req, res) => {
   try {
@@ -39,6 +41,7 @@ app.post('/upload', async (req, res) => {
     res.status(201).json({ message: 'Request created successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create request' });
+    console.log(error)
   }
 });
 
@@ -60,4 +63,18 @@ app.get('/requests/:id/pdf', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+});
+
+
+
+// Route to retrieve and All requests
+app.get('/fetchallrequests', async (req, res) => {
+  try {
+    // Use the find method to retrieve all documents from the 'requests' collection
+    const requests = await Request.find();
+    res.json(requests);
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
 });

@@ -1,9 +1,10 @@
 import React from 'react'
+import AllRequest from './allRequest'
 
 const Home = () => {
   return (
     <div>
-      yoyoyoyo!!! this is home
+      <AllRequest/>
     </div>
   )
 }
