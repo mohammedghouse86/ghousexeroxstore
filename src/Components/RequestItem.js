@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react'
+import RequestContext from "../Context/request_contex/requestContext";
 
 const RequestItem = ({ request }) => {
-
+  const context = useContext(RequestContext);
+  const { getRequests } = context;
   
   const getPdf = async (e) => {
     e.preventDefault();
@@ -36,7 +38,12 @@ const RequestItem = ({ request }) => {
 
       if (!response.ok) {
         throw new Error('Failed to fetch PDF');
-      }} catch (error) {
+      }
+    else {
+      getRequests();
+    }
+    
+    } catch (error) {
       console.error('Error deleting the request:', error);
     }
   };

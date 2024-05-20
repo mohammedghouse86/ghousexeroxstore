@@ -9,6 +9,7 @@ const RequestState = (props) => {
   "pdfContentType": "application/pdf",
   "date": "2024-05-18T14:12:02.719Z"}];
   const [user_requests, setRequests] = useState(mongoDB_user_uploaded_requests);
+  const [username, setUsername] = useState(null);
 
     // Log user_requests whenever it changes
     useEffect(() => {
@@ -37,7 +38,7 @@ const RequestState = (props) => {
 };
 
   // with the below code we can use these user uploaded notes using the usecontext hook
-  return (<RequestContext.Provider value={{ user_requests, getRequests}}>{props.children}</RequestContext.Provider>)
+  return (<RequestContext.Provider value={{ user_requests, getRequests, username, setUsername}}>{props.children}</RequestContext.Provider>)
   }
 
   export default RequestState

@@ -1,9 +1,11 @@
-import React, {useContext, useState} from 'react'
-//import NoteContext from "../Context/notes/noteContext";
+import React, { useContext, useState } from 'react'
+import RequestContext from "../Context/request_contex/requestContext";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 {/*const context = useContext(NoteContext);*/}
+const context = useContext(RequestContext);
+const { username, setUsername } = context;
   const [Credential, SetCredential] = useState({ email: "", password: "" })
 {/*const {alert,setAlert} = context; {/* ADDING ALERT FROM CONTEX API*/}
   //let history = useHistory();
@@ -20,6 +22,7 @@ const Login = () => {
 
   const Submit_Login_Form = async (e) => {
     e.preventDefault();
+  
     console.log('email=',Credential.email,'password=',Credential.password)
     const response = await fetch("http://localhost:7000/auth/login", {
       method: 'POST',
@@ -34,6 +37,13 @@ const Login = () => {
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
+      const response = await fetch("http://localhost:7000/auth/getuser", {
+      method: 'POST',
+      headers: {
+        'auth-token': localStorage.getItem('token')
+      }});
+    const json_1 = await response.json();
+    setUsername(json_1.name)
       //onSuccess();
       history("/"); // it rerouts us to the home page 
     }

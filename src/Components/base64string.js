@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import RequestContext from "../Context/request_contex/requestContext";
+
 
 const PdfToBase64Converter = () => {
   let json_1
   const [base64String, setBase64String] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [description, setDescription] = useState(''); // Add state for the description input
-  const [username, setUsername] = useState(null);
+  const context = useContext(RequestContext);
+  const { username, setUsername } = context;
   const convertPdfToBase64 = (event) => {
     const file = event.target.files[0];
 
     if (file && file.type === 'application/pdf') {
       const reader = new FileReader();
-      reader.onload = function (event) {
+      reader.onload = function (event) {   
         let base_64String = event.target.result.split(',')[1];
         base_64String = "data:application/pdf;base64,"+ base_64String
         setBase64String(base_64String);
@@ -63,7 +66,7 @@ const PdfToBase64Converter = () => {
       <input type="file" accept="application/pdf" onChange={convertPdfToBase64} />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <h3>Base64 Output</h3>
-      <textarea className ="invisible" value={base64String} rows="10" cols="80" readOnly />
+      <textarea /*className ="invisible"*/ value={base64String} rows="10" cols="80" readOnly />
       <form onSubmit={uploadRequest}>
       <input
           type="text"
