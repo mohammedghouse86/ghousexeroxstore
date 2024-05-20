@@ -8,7 +8,17 @@ const PdfToBase64Converter = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [description, setDescription] = useState(''); // Add state for the description input
   const context = useContext(RequestContext);
-  const { username, setUsername } = context;
+  const { username, setUsername, alert, setAlert  } = context;
+
+  const onSuccess = () => {
+    setAlert({ status: true, message: `Request received from ${username}...` });
+    //console.log(alert);
+    setTimeout(() => {
+      setAlert({ status: null, message: `` });
+      //history("/"); // it rerouts us to the home page 
+    }, 1500);
+  }
+
   const convertPdfToBase64 = (event) => {
     const file = event.target.files[0];
 
@@ -39,10 +49,10 @@ const PdfToBase64Converter = () => {
       }});
     json_1 = await response.json();
     setUsername(json_1.name)
-    console.log('name=',json_1.name);
+    //console.log('name=',json_1.name);
 
     if(base64String){
-      console.log("username",username, "description",description, "pdf", base64String);
+      //console.log("username",username, "description",description, "pdf", base64String);
       const response = await fetch("http://localhost:7000/upload", {
       method: 'POST',
       headers: {
@@ -55,18 +65,18 @@ const PdfToBase64Converter = () => {
       })});
       
     const json_2 = await response.json();
-    console.log(json_2)
+    onSuccess();
+    //console.log(json_2)
     }
 
   }
 
   return (
-    <div>
+    <div className='mx-3'>
       <h2>Upload a PDF File</h2>
       <input type="file" accept="application/pdf" onChange={convertPdfToBase64} />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <h3>Base64 Output</h3>
-      <textarea /*className ="invisible"*/ value={base64String} rows="10" cols="80" readOnly />
+      
       <form onSubmit={uploadRequest}>
       <input
           type="text"
@@ -76,6 +86,8 @@ const PdfToBase64Converter = () => {
           required
         />
       <button type="submit">UPLOAD REQUEST</button></form>
+      {/*<h3>Base64 Output</h3>*/}
+      <textarea className ="invisible" value={base64String} rows="10" cols="80" readOnly />
     </div>
   );
 };

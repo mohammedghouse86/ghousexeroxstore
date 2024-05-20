@@ -3,27 +3,26 @@ import RequestContext from "../Context/request_contex/requestContext";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-{/*const context = useContext(NoteContext);*/}
-const context = useContext(RequestContext);
-const { username, setUsername } = context;
+  let json_1
+  const context = useContext(RequestContext);
+  const { username, setUsername, alert, setAlert } = context;
   const [Credential, SetCredential] = useState({ email: "", password: "" })
-{/*const {alert,setAlert} = context; {/* ADDING ALERT FROM CONTEX API*/}
-  //let history = useHistory();
   let history = useNavigate();
 
-{/*  const onSuccess = () => {
-    setAlert({status:true,message:`logged in...`});
-    console.log(alert);
-    setTimeout(()=>{
-      setAlert({status:null,message:``});
+  const onSuccess = () => {
+    setAlert({ status: true, message: `${json_1.name} logged in...` });
+    //console.log(alert);
+    setTimeout(() => {
+      setAlert({ status: null, message: `` });
       history("/"); // it rerouts us to the home page 
-    },1500);
-  }*/}
+    }, 1500);
+  }
+
 
   const Submit_Login_Form = async (e) => {
     e.preventDefault();
-  
-    console.log('email=',Credential.email,'password=',Credential.password)
+
+    //console.log('email=',Credential.email,'password=',Credential.password)
     const response = await fetch("http://localhost:7000/auth/login", {
       method: 'POST',
       headers: {
@@ -31,20 +30,21 @@ const { username, setUsername } = context;
       },
       body: JSON.stringify({ email: Credential.email, password: Credential.password })
     });
-    
+
     const json = await response.json()
-    console.log(json);
+    //console.log(json);
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem('token', json.authtoken);
       const response = await fetch("http://localhost:7000/auth/getuser", {
-      method: 'POST',
-      headers: {
-        'auth-token': localStorage.getItem('token')
-      }});
-    const json_1 = await response.json();
-    setUsername(json_1.name)
-      //onSuccess();
+        method: 'POST',
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      json_1 = await response.json();
+      setUsername(json_1.name)
+      onSuccess();
       history("/"); // it rerouts us to the home page 
     }
     else {
@@ -65,7 +65,7 @@ const { username, setUsername } = context;
         </div>
         <div className="mb-3">
           <label htmlFor="exampleInputPassword1" className="form-label mx-5">Password</label>
-          <input type="password" className="form-control mx-5" id="Password" onChange={onChange} value={Credential.password} name="password"/>
+          <input type="password" className="form-control mx-5" id="Password" onChange={onChange} value={Credential.password} name="password" />
 
         </div>
         <button type="submit" className="btn btn-primary  mx-5">LOGIN</button>

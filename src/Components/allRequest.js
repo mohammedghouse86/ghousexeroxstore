@@ -10,7 +10,7 @@ const AllRequest = () => {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       getRequests();
-      console.log('this is all the requests = ', user_requests);
+      //console.log('this is all the requests = ', user_requests);
     }
   }, [])
 

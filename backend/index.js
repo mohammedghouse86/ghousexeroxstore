@@ -41,7 +41,7 @@ app.post('/upload', async (req, res) => {
     res.status(201).json({ message: 'Request created successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create request' });
-    console.log(error)
+    //console.log(error)
   }
 });
 
@@ -61,7 +61,7 @@ app.get('/requests/:id/pdf', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  //console.log(`Server running on port ${port}`);
 });
 
 

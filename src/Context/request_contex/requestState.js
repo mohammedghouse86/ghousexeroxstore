@@ -1,6 +1,8 @@
 import RequestContext from "./requestContext";
 import { useState, useEffect} from "react";
 const RequestState = (props) => {
+  //CONTEXT API FOR ALERT
+  const [alert,setAlert] = useState({status:null,message:""}); //default mode state is NULL.
   // Here Ghouse Mohammed is hard coading all the user noted instead of getting it from the API
   const host = `http://localhost:7000`
   const mongoDB_user_uploaded_requests = [{"_id": "6648b732bd22f3b087f9b890",
@@ -13,7 +15,7 @@ const RequestState = (props) => {
 
     // Log user_requests whenever it changes
     useEffect(() => {
-      console.log('Updated user_requests:', user_requests);
+      //console.log('Updated user_requests:', user_requests);
     }, [user_requests]);
 
   //FETCHING ALL NOTES FUNCTION
@@ -28,9 +30,9 @@ const RequestState = (props) => {
         }
       });
       const res_json = await response.json();
-      console.log('Fetched requests:', res_json); // Log the fetched data
+      //console.log('Fetched requests:', res_json); // Log the fetched data
       setRequests(res_json);
-      console.log('After setRequests', res_json , user_requests);
+      //console.log('After setRequests', res_json , user_requests);
     } catch (error) {
       console.error('Error fetching requests:', error);
     }
@@ -38,7 +40,7 @@ const RequestState = (props) => {
 };
 
   // with the below code we can use these user uploaded notes using the usecontext hook
-  return (<RequestContext.Provider value={{ user_requests, getRequests, username, setUsername}}>{props.children}</RequestContext.Provider>)
+  return (<RequestContext.Provider value={{ user_requests, getRequests, username, setUsername,alert,setAlert}}>{props.children}</RequestContext.Provider>)
   }
 
   export default RequestState
